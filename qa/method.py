@@ -5,6 +5,7 @@ import math
 import numpy as np
 np.set_printoptions(suppress = True)
 
+# 未确知测度法
 def Unascertained_Measure_Model(m, n, k, x, a):
 	u1 = np.zeros((m, n, k))	# 计算单指标未确知测度
 	for i in range(0, m):
@@ -106,6 +107,7 @@ def Unascertained_Measure_Model(m, n, k, x, a):
 		# print("样本x%d属于%d级" % (i + 1, l))
 	return ans
 	
+# 灰关联分析法
 def Gray_Relational_Analysis(m, n, k, x, s):
 	b = np.zeros((n, k))	# 标准矩阵
 	a = np.zeros((m, n))	# 样本矩阵
@@ -225,6 +227,7 @@ def Gray_Relational_Analysis(m, n, k, x, s):
 		# print("评价等级为%d级" % index)
 	return ans
 	
+# 模糊综合评价法
 def Fuzzy_Comprehensive_Evaluation(m, n, k, x, s):
 	x1 = x.T
 	r = np.zeros((m, n, k))
