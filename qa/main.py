@@ -8,6 +8,11 @@ np.set_printoptions(suppress = True)
 import method as wam
 import os
 
+def search_for(directoy,target):
+	for (root,dirs,files) in os.walk(directoy):
+		if target in files:
+			return os.path.join(root,target)
+			
 def analysis():
 	# m = int(input("监测点数目="))
 	# n = int(input("监测点指标个数="))
@@ -15,15 +20,11 @@ def analysis():
 
 	print("读取监测数据和标准数据")
 	
-	def search_for(directoy,target):
-		for (root,dirs,files) in os.walk(directoy):
-			if target in files:
-				return os.path.join(root,target)
 	dir = input("请输入待查找的初始目录：")
 	target1 = input("监测数据文件名(.csv)：")
 	target2 = input("标准数据文件名(.csv)：")
 	
-	x0 = pd.read_csv(search_for(dir, target1), encoding = 'GB18030')
+	x0 = pd.read_csv(search_for(dir, target1))
 	'''
 	x = np.zeros((m, n))
 	f = open(search_for(dir, target1))	# 监测数据文件：m个样本，n个指标
@@ -44,7 +45,7 @@ def analysis():
 	# print(x)
 	
 	# print("\n------------------------------------------------------------\n")
-	s0 = pd.read_csv(search_for(dir, target2), encoding = 'GB18030')
+	s0 = pd.read_csv(search_for(dir, target2))
 	'''
 	s = np.zeros((n, k))
 	f = open(search_for(dir, target2))	# 指标标准文件：每个指标有k个等级
