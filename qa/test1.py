@@ -1,16 +1,6 @@
 
 # -*- coding: utf-8 -*-
  
-"""
-PyQt5 tutorial 
- 
-In this example, we determine the event sender
-object.
- 
-author: py40.com
-last edited: 2017年3月
-"""
- 
 import sys
 import pandas as pd
 import numpy as np
