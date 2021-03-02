@@ -23,10 +23,16 @@ def analysis():
 	print("读取监测数据和标准数据")
 	
 	dir = input("请输入待查找的初始目录：")
+
+	print()
 	target1 = input("监测数据文件名(.csv)：")
-	target2 = input("标准数据文件名(.csv)：")
-	
-	x0 = pd.read_csv(search_for(dir, target1))
+
+	try:
+		x0 = pd.read_csv(search_for(dir, target1))
+	except Exception as e:
+		print("读入监测数据文件错误")
+		print(e)
+		return
 	'''
 	x = np.zeros((m, n))
 	f = open(search_for(dir, target1))	# 监测数据文件：m个样本，n个指标
@@ -43,11 +49,21 @@ def analysis():
 	n = x0.shape[1] - 1
 	# x = np.zeros((m, n))
 	x = x0.iloc[0:m, 1:n+1].values
-	
+
+	tag = x0.columns[1:n+1]
+	#print(tag)
 	# print(x)
 	
 	# print("\n------------------------------------------------------------\n")
-	s0 = pd.read_csv(search_for(dir, target2))
+	print()
+	target2 = input("标准数据文件名(.csv)：")
+
+	try:
+		s0 = pd.read_csv(search_for(dir, target2))
+	except Exception as e:
+		print("读入标准数据文件错误")
+		print(e)
+		return
 	'''
 	s = np.zeros((n, k))
 	f = open(search_for(dir, target2))	# 指标标准文件：每个指标有k个等级
@@ -78,6 +94,7 @@ def analysis():
 	elif chose == 3:
 		wam.Fuzzy_Comprehensive_Evaluation(m, n, k, x, s)
 	'''
+
 	ans1 = wam.Unascertained_Measure_Model(m, n, k, x, s)
 	ans2 = wam.Gray_Relational_Analysis(m, n, k, x, s)
 	ans3 = wam.Fuzzy_Comprehensive_Evaluation(m, n, k, x, s)
@@ -94,7 +111,8 @@ def analysis():
 		print("%5s" % level[ans2[i]], end = "级      ")
 		print("%5s" % level[ans3[i]], end = "级\n")
 
-	#show.showImg(n, ans1, ans2, ans3)
+	#print(x.T)
+	show.showImg(n, tag, x.T)
 
 
 def run_qa():
