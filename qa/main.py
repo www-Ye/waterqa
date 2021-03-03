@@ -7,8 +7,7 @@ import numpy as np
 import pandas as pd
 np.set_printoptions(suppress = True)
 
-import method as wam
-import show
+import method
 
 def search_for(directoy,target):
 	for (root,dirs,files) in os.walk(directoy):
@@ -45,14 +44,7 @@ def analysis():
 	'''
 	print("\n监测数据")
 	print(x0)
-	m = x0.shape[0]
-	n = x0.shape[1] - 1
-	# x = np.zeros((m, n))
-	x = x0.iloc[0:m, 1:n+1].values
-
-	tag = x0.columns[1:n+1]
-	#print(tag)
-	# print(x)
+	
 	
 	# print("\n------------------------------------------------------------\n")
 	print()
@@ -76,9 +68,7 @@ def analysis():
 	'''
 	print("\n评价指标")
 	print(s0)
-	k = s0.shape[1] - 1
-	s = s0.iloc[0:n, 1:k+1].values
-	# print(s)
+	
 	print("\n------------------------------------------------------------\n")
 	'''
 	print("请输入对应数字选择综合评价方法")
@@ -88,31 +78,32 @@ def analysis():
 		chose = int(input("输入错误，请重新输入："))
 		print(chose)
 	if chose == 1:
-		wam.Unascertained_Measure_Model(m, n, k, x, s)
+		method.Unascertained_Measure_Model(m, n, k, x, s)
 	elif chose == 2:
-		wam.Gray_Relational_Analysis(m, n, k, x, s)
+		method.Gray_Relational_Analysis(m, n, k, x, s)
 	elif chose == 3:
-		wam.Fuzzy_Comprehensive_Evaluation(m, n, k, x, s)
+		method.Fuzzy_Comprehensive_Evaluation(m, n, k, x, s)
 	'''
-
-	ans1 = wam.Unascertained_Measure_Model(m, n, k, x, s)
-	ans2 = wam.Gray_Relational_Analysis(m, n, k, x, s)
-	ans3 = wam.Fuzzy_Comprehensive_Evaluation(m, n, k, x, s)
-	# print(x0[x0.columns[0]])
-	name = x0[x0.columns[0]].values
-	level = s0.columns[1:k+1].values
+	dataAssement = method.AssessmentModel(x0, s0)
+	ans1 = dataAssement.Unascertained_Measure_Model()
+	ans2 = dataAssement.Gray_Relational_Analysis()
+	ans3 = dataAssement.Fuzzy_Comprehensive_Evaluation()
+	
+	name = dataAssement.name
+	level = dataAssement.level
 	# print(level)
 	# print(name)
 	print("          未确知测度   灰关联分析   模糊综合评价")
 	
-	for i in range(0, m):
+	for i in range(0, dataAssement.numOfm):
 		print("%5s" % name[i], end = "   ")
 		print("%5s" % level[ans1[i]], end = "级      ")
 		print("%5s" % level[ans2[i]], end = "级      ")
 		print("%5s" % level[ans3[i]], end = "级\n")
 
 	#print(x.T)
-	show.showImg(n, tag, x.T)
+	#show.showImg(n, tag, x.T)
+	dataAssement.showElementImg()
 
 
 def run_qa():
